@@ -14,8 +14,10 @@ private:
 
 public:
     DatabaseManager();
-    bool openDB(QString dbName);
+    bool openDB(QString dbPath);
+    void clodeDB();
     bool createDB(QList<int> colorNumberList, QString dbName);
+    QList<int> getSequenzeDatas();
 };
 
 #endif // DATABASEMANAGER_H

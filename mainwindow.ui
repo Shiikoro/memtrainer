@@ -16,13 +16,13 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="1" column="1">
-     <widget class="QGroupBox" name="groupBox">
+     <widget class="QGroupBox" name="gBButtons">
       <property name="title">
        <string>GroupBox</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="2" column="3">
-        <widget class="QToolButton" name="toolButton_2">
+        <widget class="QToolButton" name="btnYellow">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
@@ -35,7 +35,7 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QToolButton" name="toolButton">
+        <widget class="QToolButton" name="btnRed">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
@@ -48,7 +48,7 @@
         </widget>
        </item>
        <item row="1" column="3">
-        <widget class="QToolButton" name="toolButton_3">
+        <widget class="QToolButton" name="btnGreen">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
@@ -61,7 +61,7 @@
         </widget>
        </item>
        <item row="2" column="0">
-        <widget class="QToolButton" name="toolButton_4">
+        <widget class="QToolButton" name="btnBlue">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
@@ -98,7 +98,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -112,7 +112,14 @@
     <addaction name="separator"/>
     <addaction name="actionStart"/>
    </widget>
+   <widget class="QMenu" name="menuMenu">
+    <property name="title">
+     <string>Menu</string>
+    </property>
+    <addaction name="actionInterval"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuMenu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionCreate_new_File">
@@ -133,6 +140,11 @@
   <action name="actionStart">
    <property name="text">
     <string>Start</string>
+   </property>
+  </action>
+  <action name="actionInterval">
+   <property name="text">
+    <string>Interval</string>
    </property>
   </action>
  </widget>

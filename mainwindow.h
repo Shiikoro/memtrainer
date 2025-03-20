@@ -23,6 +23,7 @@ private:
     int getRandomNumber();
     void setdbDatas();
     void updateStatus();
+    void checkClickedIndex();
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -37,5 +38,13 @@ private slots:
     void on_actionStart_triggered();
     void on_actionInterval_triggered();
     void onRedclicked();
+    void onBlueclicked();
+    void onYellowclicked();
+    void onGreenclicked();
 };
+
+inline void MainWindow::checkClickedIndex()
+{
+
+}
 #endif // MAINWINDOW_H

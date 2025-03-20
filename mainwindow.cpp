@@ -16,6 +16,9 @@ MainWindow::MainWindow(QWidget *parent)
     toolButtonList.append(btnYellow);
 
     connect(btnRed, SIGNAL(clicked()), this, SLOT(onRedclicked()));
+    connect(btnGreen, SIGNAL(clicked()), this, SLOT(onGreenclicked()));
+    connect(btnBlue, SIGNAL(clicked()), this, SLOT(onBlueclicked()));
+    connect(btnYellow, SIGNAL(clicked()), this, SLOT(onYellowclicked()));
 
     setStyleSheet( QString( "QToolButton { border: none; }\n"
                             "QToolButton#btnRed { background: #200000; }\n"
@@ -62,6 +65,11 @@ void MainWindow::updateStatus()
     progressBar->setValue(buttonIndex);
 }
 
+void MainWindow::checkClickedIndex()
+{
+
+}
+
 void MainWindow::selectButtonPress()
 {
     for(int i = 0; i < toolButtonList.count(); i++)
@@ -98,7 +106,6 @@ void MainWindow::on_actionCreate_new_File_triggered()
     if(ok)
         newAmmount = ammount;
 }
-
 
 void MainWindow::on_actionSave_sequence_as_triggered()
 {
@@ -138,3 +145,17 @@ void MainWindow::onRedclicked()
     qWarning() << "RED";
 }
 
+void MainWindow::onBlueclicked()
+{
+
+}
+
+void MainWindow::onYellowclicked()
+{
+
+}
+
+void MainWindow::onGreenclicked()
+{
+
+}

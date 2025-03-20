@@ -42,9 +42,4 @@ private slots:
     void onYellowclicked();
     void onGreenclicked();
 };
-
-inline void MainWindow::checkClickedIndex()
-{
-
-}
 #endif // MAINWINDOW_H

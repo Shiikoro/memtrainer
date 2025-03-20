@@ -16,9 +16,13 @@ private:
     QList<int> dbDatas;
     QList<QToolButton*> toolButtonList;
     int interval;
+    int buttonIndex;
+    QTimer* timer;
 
     QList<int> getRandomNumberList();
     int getRandomNumber();
+    void setdbDatas();
+    void updateStatus();
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -26,6 +30,7 @@ public:
 
 private slots:
     void selectButtonPress();
+    void buttonRelease();
     void on_actionCreate_new_File_triggered();
     void on_actionSave_sequence_as_triggered();
     void on_actionLoad_sequence_triggered();

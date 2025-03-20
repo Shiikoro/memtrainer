@@ -4,7 +4,9 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
     db(new DatabaseManager),
     random(new QRandomGenerator()),
-    interval(1000)
+    interval(1000),
+    buttonIndex(0),
+    timer(new QTimer())
 {
     setupUi(this);
 
@@ -49,14 +51,44 @@ int MainWindow::getRandomNumber()
     return random->bounded(1,4);
 }
 
+void MainWindow::setdbDatas()
+{
+    dbDatas = db->getSequenzeDatas();
+}
+
+void MainWindow::updateStatus()
+{
+    lcdProgress->display(buttonIndex);
+    progressBar->setValue(buttonIndex);
+}
+
 void MainWindow::selectButtonPress()
 {
-    if(dbDatas.isEmpty())
+    for(int i = 0; i < toolButtonList.count(); i++)
+    {
+        toolButtonList[i]->setDown(false);
+    }
+
+    if(buttonIndex >= dbDatas.count())
+    {
+        buttonIndex = 0;
         return;
+    }
 
-    toolButtonList[dbDatas.takeFirst()]->click(); //Buttons sind die richtigen dennoch wird click nicht regestriert.
+    toolButtonList[dbDatas[buttonIndex]]->setDown(true);
+    buttonIndex++;
+    updateStatus();
+    timer->singleShot(interval / 2, this, SLOT(buttonRelease()));
+}
 
-    QTimer::singleShot(interval, this, SLOT(selectButtonPress()));
+void MainWindow::buttonRelease()
+{
+    for(int i = 0; i < toolButtonList.count(); i++)
+    {
+        toolButtonList[i]->setDown(false);
+    }
+
+    timer->singleShot(interval / 2, this, SLOT(selectButtonPress()));
 }
 
 void MainWindow::on_actionCreate_new_File_triggered()
@@ -85,8 +117,11 @@ void MainWindow::on_actionLoad_sequence_triggered()
 
 void MainWindow::on_actionStart_triggered()
 {
-    dbDatas = db->getSequenzeDatas();
+    setdbDatas();
+    if(timer->isActive() || buttonIndex > 0)
+        return;
     selectButtonPress();
+    progressBar->setRange(0, dbDatas.count());
 }
 
 

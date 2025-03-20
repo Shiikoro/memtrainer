@@ -81,12 +81,12 @@
       <item>
        <widget class="QProgressBar" name="progressBar">
         <property name="value">
-         <number>24</number>
+         <number>0</number>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLCDNumber" name="lcdNumber"/>
+       <widget class="QLCDNumber" name="lcdProgress"/>
       </item>
      </layout>
     </item>
@@ -118,8 +118,16 @@
     </property>
     <addaction name="actionInterval"/>
    </widget>
+   <widget class="QMenu" name="menuMode">
+    <property name="title">
+     <string>Mode</string>
+    </property>
+    <addaction name="actionPlayer"/>
+    <addaction name="actionTrainer"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuMenu"/>
+   <addaction name="menuMode"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionCreate_new_File">
@@ -145,6 +153,22 @@
   <action name="actionInterval">
    <property name="text">
     <string>Interval</string>
+   </property>
+  </action>
+  <action name="actionPlayer">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Player</string>
+   </property>
+  </action>
+  <action name="actionTrainer">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Trainer</string>
    </property>
   </action>
  </widget>

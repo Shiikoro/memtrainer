@@ -51,7 +51,7 @@ QList<int> MainWindow::getRandomNumberList()
 
 int MainWindow::getRandomNumber()
 {
-    return random->bounded(1,4);
+    return random->bounded(0,4);
 }
 
 void MainWindow::setdbDatas()

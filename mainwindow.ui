@@ -122,8 +122,6 @@
     <property name="title">
      <string>Mode</string>
     </property>
-    <addaction name="actionPlayer"/>
-    <addaction name="actionTrainer"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuMenu"/>

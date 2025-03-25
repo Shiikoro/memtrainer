@@ -6,7 +6,9 @@ MainWindow::MainWindow(QWidget *parent)
     random(new QRandomGenerator()),
     interval(1000),
     buttonIndex(0),
-    timer(new QTimer())
+    clickedIndex(0),
+    timer(new QTimer()),
+    actionGroup(new QActionGroup(this))
 {
     setupUi(this);
 
@@ -29,6 +31,8 @@ MainWindow::MainWindow(QWidget *parent)
                             "QToolButton#btnGreen:checked, QToolButton#btnGreen:pressed { background: #00FF00; }\n"
                             "QToolButton#btnBlue { background: #000020; }\n"
                             "QToolButton#btnBlue:checked, QToolButton#btnBlue:pressed { background: #0000FF; }" ) );
+
+    creatActions();
 }
 
 MainWindow::~MainWindow()
@@ -51,23 +55,56 @@ QList<int> MainWindow::getRandomNumberList()
 
 int MainWindow::getRandomNumber()
 {
-    return random->bounded(1,4);
+    return random->bounded(0,4);
 }
 
 void MainWindow::setdbDatas()
 {
     dbDatas = db->getSequenzeDatas();
+    qWarning() << dbDatas;
 }
 
-void MainWindow::updateStatus()
+void MainWindow::updateStatus(int progress)
 {
-    lcdProgress->display(buttonIndex);
-    progressBar->setValue(buttonIndex);
+    lcdProgress->display(progress);
+    progressBar->setValue(progress);
 }
 
-void MainWindow::checkClickedIndex()
+void MainWindow::creatAction(QString name)
 {
+    QAction* action = new QAction(name, actionGroup);
+    action->setCheckable(true);
+    menuMode->addAction(action);
+}
 
+void MainWindow::creatActions()
+{
+    for(int i = 0; i < modes.count(); i++)
+    {
+        creatAction(modes[i]);
+    }
+}
+
+void MainWindow::checkClickedIndex(int i)
+{
+    qWarning() << i << dbDatas[clickedIndex] << clickedIndex;
+    if(i == dbDatas[clickedIndex])
+        clickedIndex++;
+    else
+        clickedIndex = 0;
+    updateStatus(clickedIndex);
+}
+
+bool MainWindow::isTrainingModeActive()
+{
+    QList<QAction *> actionList = actionGroup->actions();
+    for(int i = 0; i < actionList.count(); i++)
+    {
+        if(actionList[i]->isChecked() && actionList[i]->text() == modes[1])
+            return true;
+    }
+
+    return false;
 }
 
 void MainWindow::selectButtonPress()
@@ -84,8 +121,9 @@ void MainWindow::selectButtonPress()
     }
 
     toolButtonList[dbDatas[buttonIndex]]->setDown(true);
+    qWarning() << "Index" << dbDatas[buttonIndex];
     buttonIndex++;
-    updateStatus();
+    updateStatus(buttonIndex);
     timer->singleShot(interval / 2, this, SLOT(buttonRelease()));
 }
 
@@ -109,16 +147,17 @@ void MainWindow::on_actionCreate_new_File_triggered()
 
 void MainWindow::on_actionSave_sequence_as_triggered()
 {
-    QString test = QFileDialog::getSaveFileName(this, "Create new file", "", "");
+    QString dbName = QFileDialog::getSaveFileName(this, "Create new file", "", "");
     QList<int> randomNumberList = getRandomNumberList();
-    db->createDB(randomNumberList, test);
+    db->createDB(randomNumberList, dbName);
+    qWarning() << randomNumberList;
 }
 
 
 void MainWindow::on_actionLoad_sequence_triggered()
 {
-    QString test = QFileDialog::getOpenFileName(this, "Select database file", "", "");
-    db->openDB(test);
+    QString dbName = QFileDialog::getOpenFileName(this, "Select database file", "", "");
+    db->openDB(dbName);
 }
 
 
@@ -127,6 +166,7 @@ void MainWindow::on_actionStart_triggered()
     setdbDatas();
     if(timer->isActive() || buttonIndex > 0)
         return;
+    clickedIndex = 0;
     selectButtonPress();
     progressBar->setRange(0, dbDatas.count());
 }
@@ -142,20 +182,24 @@ void MainWindow::on_actionInterval_triggered()
 
 void MainWindow::onRedclicked()
 {
-    qWarning() << "RED";
+    if(isTrainingModeActive())
+        checkClickedIndex(0);
 }
 
 void MainWindow::onBlueclicked()
 {
-
+    if(isTrainingModeActive())
+        checkClickedIndex(2);
 }
 
 void MainWindow::onYellowclicked()
 {
-
+    if(isTrainingModeActive())
+        checkClickedIndex(3);
 }
 
 void MainWindow::onGreenclicked()
 {
-
+    if(isTrainingModeActive())
+        checkClickedIndex(1);
 }

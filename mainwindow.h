@@ -17,13 +17,19 @@ private:
     QList<QToolButton*> toolButtonList;
     int interval;
     int buttonIndex;
+    int clickedIndex;
     QTimer* timer;
+    QActionGroup* actionGroup;
+    QList<QString> modes = *new QList<QString> << "Player" << "Training";
 
     QList<int> getRandomNumberList();
     int getRandomNumber();
     void setdbDatas();
-    void updateStatus();
-    void checkClickedIndex();
+    void updateStatus(int progress);
+    void creatAction(QString name);
+    void creatActions();
+    void checkClickedIndex(int i);
+    bool isTrainingModeActive();
 
 public:
     MainWindow(QWidget *parent = nullptr);

@@ -3,7 +3,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
     db(new DatabaseManager),
-    random(new QRandomGenerator()),
+    random(new QRandomGenerator(QRandomGenerator::securelySeeded())),
     interval(1000),
     buttonIndex(0),
     clickedIndex(0),
@@ -87,11 +87,23 @@ void MainWindow::creatActions()
 
 void MainWindow::checkClickedIndex(int i)
 {
-    qWarning() << i << dbDatas[clickedIndex] << clickedIndex;
+    if(dbDatas.isEmpty())
+        return;
+
+    if(dbDatas.count() == clickedIndex+1)
+    {
+        updateStatus(clickedIndex+1);
+        hasPlayerWon(true);
+        clickedIndex = 0;
+        return;
+    }
     if(i == dbDatas[clickedIndex])
         clickedIndex++;
     else
+    {
         clickedIndex = 0;
+        hasPlayerWon(false);
+    }
     updateStatus(clickedIndex);
 }
 
@@ -105,6 +117,13 @@ bool MainWindow::isTrainingModeActive()
     }
 
     return false;
+}
+
+void MainWindow::hasPlayerWon(bool win)
+{
+    QString result = win == true? WIN_TEXT : LOSE_TEXT;
+
+    QMessageBox::information(this, "Ergebniss", result);
 }
 
 void MainWindow::selectButtonPress()
@@ -163,6 +182,9 @@ void MainWindow::on_actionLoad_sequence_triggered()
 
 void MainWindow::on_actionStart_triggered()
 {
+    if(isTrainingModeActive())
+        return;
+
     setdbDatas();
     if(timer->isActive() || buttonIndex > 0)
         return;

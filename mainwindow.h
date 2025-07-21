@@ -5,6 +5,9 @@
 #include "databasemanager.h"
 #include <QMainWindow>
 
+#define WIN_TEXT QString("Du hast es geschafft!")
+#define LOSE_TEXT QString("Versuch es noch einmal.")
+
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
     Q_OBJECT
@@ -30,6 +33,7 @@ private:
     void creatActions();
     void checkClickedIndex(int i);
     bool isTrainingModeActive();
+    void hasPlayerWon(bool win);
 
 public:
     MainWindow(QWidget *parent = nullptr);

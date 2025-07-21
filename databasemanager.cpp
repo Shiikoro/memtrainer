@@ -13,11 +13,14 @@ bool DatabaseManager::createTable()
                           "colorIndex integer not null"
                           ");");
     QSqlQuery query;
-    return query.exec(queryString);
+    bool b = query.exec(queryString);
+    qWarning() << query.lastError();
+    return b;
 }
 
 bool DatabaseManager::insertDatas(int colorNumber)
 {
+    qWarning() << colorNumber;
     QString queryString = QString("INSERT INTO sequence (colorIndex) VALUES (%1)")
                               .arg(colorNumber);
     QSqlQuery query;
@@ -45,6 +48,9 @@ void DatabaseManager::clodeDB()
 
 bool DatabaseManager::createDB(QList<int> colorNumberList, QString dbName)
 {
+    if(db.isOpen())
+        db.close();
+
     QString dbPath = QString("%1")
                             .arg(dbName);
 
@@ -53,14 +59,19 @@ bool DatabaseManager::createDB(QList<int> colorNumberList, QString dbName)
 
     if(!openDB(dbPath))
         return false;
+    qWarning() << "All fine";
+
     if(!createTable())
         return false;
 
+    qWarning() << "All fine";
     for(int i = 0; i < colorNumberList.count(); i++)
     {
         if(!insertDatas(colorNumberList[i]))
             return false;
     }
+
+    qWarning() << "All fine";
 
     return true;
 }

@@ -61,7 +61,6 @@ int MainWindow::getRandomNumber()
 void MainWindow::setdbDatas()
 {
     dbDatas = db->getSequenzeDatas();
-    qWarning() << dbDatas;
 }
 
 void MainWindow::updateStatus(int progress)
@@ -140,7 +139,6 @@ void MainWindow::selectButtonPress()
     }
 
     toolButtonList[dbDatas[buttonIndex]]->setDown(true);
-    qWarning() << "Index" << dbDatas[buttonIndex];
     buttonIndex++;
     updateStatus(buttonIndex);
     timer->singleShot(interval / 2, this, SLOT(buttonRelease()));
@@ -169,7 +167,6 @@ void MainWindow::on_actionSave_sequence_as_triggered()
     QString dbName = QFileDialog::getSaveFileName(this, "Create new file", "", "");
     QList<int> randomNumberList = getRandomNumberList();
     db->createDB(randomNumberList, dbName);
-    qWarning() << randomNumberList;
 }
 
 
